@@ -669,6 +669,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import mysql.connector
+import os
 from datetime import date
 
 app = FastAPI()
@@ -682,10 +683,11 @@ app.add_middleware(
 )
 
 DB_CONFIG = {
-    "host":     "localhost",
-    "user":     "root",
-    "password": "",          # ← உங்கள் MySQL password
-    "database": "carrental"
+    "host": os.getenv("DB_HOST", "localhost"),
+    "port": int(os.getenv("DB_PORT", "3306")),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "database": os.getenv("DB_NAME", "car_rental")
 }
 
 def get_db():
